@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: francine-website
+    env: node
+    plan: free
+    rootDir: francine-website
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /

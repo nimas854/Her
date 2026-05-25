@@ -1,0 +1,12 @@
+{
+  "name": "francine-website",
+  "version": "1.0.0",
+  "description": "A beautiful website made with love for Francine Mae 💖",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

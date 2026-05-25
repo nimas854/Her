@@ -1,0 +1,1303 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For Francine Mae 💖</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Dancing+Script:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --rose: #f7a8c4;
+        --deep-rose: #e0567c;
+        --blush: #fce4ec;
+        --gold: #f9d77e;
+        --gold-deep: #c9a227;
+        --cream: #fff8f0;
+        --deep: #2a0a18;
+        --mid: #7c2d44;
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: #0d0008;
+        color: var(--cream);
+        font-family: "Cormorant Garamond", serif;
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      /* ── Custom cursor ── */
+      .cursor {
+        position: fixed;
+        width: 12px;
+        height: 12px;
+        background: var(--rose);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          transform 0.15s ease,
+          background 0.2s;
+        mix-blend-mode: screen;
+      }
+      .cursor-ring {
+        position: fixed;
+        width: 36px;
+        height: 36px;
+        border: 1.5px solid var(--rose);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition:
+          transform 0.35s ease,
+          opacity 0.3s;
+        opacity: 0.5;
+      }
+
+      /* ── Canvas background ── */
+      canvas#bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* ── Petal shower ── */
+      .petals {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+      }
+      .petal {
+        position: absolute;
+        top: -60px;
+        font-size: 1.4rem;
+        opacity: 0;
+        animation: fallPetal linear infinite;
+      }
+
+      @keyframes fallPetal {
+        0% {
+          transform: translateY(0) rotate(0deg) translateX(0);
+          opacity: 0.9;
+        }
+        50% {
+          transform: translateY(50vh) rotate(180deg) translateX(40px);
+          opacity: 0.7;
+        }
+        100% {
+          transform: translateY(105vh) rotate(360deg) translateX(-30px);
+          opacity: 0;
+        }
+      }
+
+      /* ── Layout ── */
+      section {
+        position: relative;
+        z-index: 2;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 24px;
+      }
+
+      /* ── HERO ── */
+      #hero {
+        flex-direction: column;
+        text-align: center;
+        overflow: hidden;
+      }
+
+      .hero-glow {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: radial-gradient(
+          ellipse 70% 60% at 50% 55%,
+          rgba(247, 168, 196, 0.18) 0%,
+          transparent 70%
+        );
+        animation: breathe 5s ease-in-out infinite;
+      }
+      @keyframes breathe {
+        0%,
+        100% {
+          opacity: 0.6;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.07);
+        }
+      }
+
+      .tag {
+        display: inline-block;
+        font-family: "Dancing Script", cursive;
+        font-size: 1.1rem;
+        color: var(--rose);
+        letter-spacing: 0.15em;
+        margin-bottom: 18px;
+        opacity: 0;
+        animation: fadeUp 0.9s 0.3s forwards;
+      }
+
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3rem, 10vw, 8rem);
+        line-height: 1;
+        background: linear-gradient(
+          135deg,
+          #fff 0%,
+          var(--gold) 40%,
+          var(--rose) 80%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        opacity: 0;
+        animation: fadeUp 1s 0.5s forwards;
+      }
+
+      .subtitle {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: clamp(1.1rem, 3vw, 1.7rem);
+        color: rgba(255, 255, 255, 0.6);
+        margin-top: 10px;
+        opacity: 0;
+        animation: fadeUp 0.9s 0.8s forwards;
+      }
+
+      /* ── MUSIC PLAYER ── */
+      #music {
+        background:
+          radial-gradient(
+            circle at top,
+            rgba(247, 168, 196, 0.1),
+            transparent 48%
+          ),
+          linear-gradient(180deg, rgba(42, 10, 24, 0.2), rgba(13, 0, 8, 0.85));
+      }
+
+      .music-shell {
+        width: min(980px, 100%);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 32px;
+        align-items: center;
+        padding: 32px;
+        border-radius: 28px;
+        background: linear-gradient(
+          145deg,
+          rgba(247, 168, 196, 0.08),
+          rgba(44, 10, 28, 0.55)
+        );
+        border: 1px solid rgba(247, 168, 196, 0.18);
+        backdrop-filter: blur(14px);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+      }
+
+      .music-copy h2 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        background: linear-gradient(120deg, #fff, var(--rose));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 12px;
+      }
+
+      .music-copy p {
+        color: rgba(255, 255, 255, 0.68);
+        line-height: 1.8;
+        font-size: 1.05rem;
+        max-width: 38ch;
+      }
+
+      .music-player {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .cd-stage {
+        width: 240px;
+        height: 240px;
+        display: grid;
+        place-items: center;
+        position: relative;
+        filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.35));
+      }
+
+      .cd-ring {
+        position: absolute;
+        inset: -14px;
+        border-radius: 50%;
+        background: conic-gradient(
+          from 45deg,
+          rgba(255, 255, 255, 0.1),
+          rgba(247, 168, 196, 0.7),
+          rgba(249, 215, 126, 0.95),
+          rgba(255, 255, 255, 0.12)
+        );
+        opacity: 0.65;
+        filter: blur(4px);
+      }
+
+      .cd {
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background:
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(13, 0, 8, 0.95) 0 12px,
+            transparent 13px
+          ),
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(255, 255, 255, 0.2) 0 28px,
+            transparent 30px
+          ),
+          conic-gradient(
+            from 180deg,
+            #1c0710 0deg,
+            #3b1223 55deg,
+            #f7a8c4 120deg,
+            #2c0a1c 185deg,
+            #f9d77e 245deg,
+            #1c0710 360deg
+          );
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        position: relative;
+        display: grid;
+        place-items: center;
+        animation: none;
+        transition: transform 0.25s ease;
+        overflow: hidden;
+      }
+
+      .cd::before {
+        content: "";
+        position: absolute;
+        inset: 18px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: inset 0 0 0 10px rgba(255, 255, 255, 0.03);
+      }
+
+      .cd::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: repeating-radial-gradient(
+          circle at 50% 50%,
+          rgba(255, 255, 255, 0.1) 0 1px,
+          transparent 1px 14px
+        );
+        opacity: 0.45;
+        mask-image: radial-gradient(
+          circle at 50% 50%,
+          transparent 0 36px,
+          #000 37px
+        );
+      }
+
+      .cd.spin {
+        animation: spin 4.2s linear infinite;
+      }
+
+      .cd-label {
+        position: relative;
+        z-index: 1;
+        width: 118px;
+        height: 118px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 12px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.95),
+          rgba(247, 168, 196, 0.35)
+        );
+        color: #2a0a18;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+        font-family: "Playfair Display", serif;
+        letter-spacing: 0.08em;
+        line-height: 1.3;
+        text-transform: uppercase;
+      }
+
+      .music-meta {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 0.85rem;
+        letter-spacing: 0.12em;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+      }
+
+      .music-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 22px;
+        border: 0;
+        border-radius: 999px;
+        font-family: "Dancing Script", cursive;
+        font-size: 1.25rem;
+        color: #0d0008;
+        background: linear-gradient(135deg, var(--gold), var(--rose));
+        box-shadow: 0 12px 30px rgba(247, 168, 196, 0.32);
+        cursor: pointer;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .music-btn:hover {
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 16px 36px rgba(247, 168, 196, 0.45);
+      }
+
+      .music-btn:active {
+        transform: scale(0.98);
+      }
+
+      .music-note {
+        font-size: 0.92rem;
+        color: rgba(255, 255, 255, 0.45);
+        text-align: center;
+        max-width: 30ch;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .scroll-hint {
+        margin-top: 48px;
+        font-size: 0.85rem;
+        letter-spacing: 0.2em;
+        color: rgba(255, 255, 255, 0.35);
+        opacity: 0;
+        animation: fadeUp 0.8s 1.4s forwards;
+      }
+      .scroll-hint span {
+        display: block;
+        width: 1px;
+        height: 50px;
+        background: linear-gradient(to bottom, transparent, var(--rose));
+        margin: 10px auto 0;
+        animation: scrollLine 2s ease-in-out infinite;
+      }
+      @keyframes scrollLine {
+        0%,
+        100% {
+          transform: scaleY(0);
+          transform-origin: top;
+        }
+        50% {
+          transform: scaleY(1);
+          transform-origin: top;
+        }
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ── PHOTO CARD ── */
+      #portrait {
+        background: transparent;
+      }
+
+      .photo-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 48px;
+      }
+      @media (min-width: 768px) {
+        .photo-wrap {
+          flex-direction: row;
+          gap: 72px;
+        }
+      }
+
+      .photo-frame {
+        position: relative;
+        width: 300px;
+        height: 380px;
+        flex-shrink: 0;
+      }
+      .photo-frame::before,
+      .photo-frame::after {
+        content: "";
+        position: absolute;
+        border-radius: 8px;
+        border: 1.5px solid var(--rose);
+        transition: transform 0.4s ease;
+      }
+      .photo-frame::before {
+        inset: -12px;
+        opacity: 0.4;
+        animation: rotFrame 8s linear infinite;
+      }
+      .photo-frame::after {
+        inset: -24px;
+        opacity: 0.2;
+        animation: rotFrame 12s linear infinite reverse;
+      }
+      @keyframes rotFrame {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .photo-box {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        background: linear-gradient(145deg, #2a0a18, #1a0510);
+        border: 1px solid rgba(247, 168, 196, 0.3);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        position: relative;
+      }
+      .photo-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        display: none;
+      }
+      .photo-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 0.85rem;
+        letter-spacing: 0.1em;
+        transition: color 0.3s;
+      }
+      .photo-box:hover .photo-placeholder {
+        color: var(--rose);
+      }
+      .photo-icon {
+        font-size: 3rem;
+      }
+      #photoInput {
+        display: none;
+      }
+
+      .shine {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          transparent 0%,
+          rgba(255, 255, 255, 0.06) 45%,
+          transparent 55%
+        );
+        animation: shineSweep 4s ease-in-out infinite;
+        pointer-events: none;
+      }
+      @keyframes shineSweep {
+        0%,
+        100% {
+          transform: translateX(-100%) translateY(-100%);
+        }
+        50% {
+          transform: translateX(100%) translateY(100%);
+        }
+      }
+
+      .info-block h2 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        background: linear-gradient(120deg, #fff, var(--gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+      }
+
+      .badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 28px;
+      }
+      .badge {
+        padding: 6px 16px;
+        border: 1px solid rgba(247, 168, 196, 0.35);
+        border-radius: 999px;
+        font-size: 0.82rem;
+        letter-spacing: 0.12em;
+        color: var(--rose);
+        background: rgba(247, 168, 196, 0.06);
+        backdrop-filter: blur(4px);
+      }
+
+      .zodiac-card {
+        background: linear-gradient(
+          135deg,
+          rgba(249, 215, 126, 0.08),
+          rgba(201, 162, 39, 0.04)
+        );
+        border: 1px solid rgba(249, 215, 126, 0.2);
+        border-radius: 12px;
+        padding: 20px 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .zodiac-icon {
+        font-size: 2.8rem;
+      }
+      .zodiac-text h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.3rem;
+        color: var(--gold);
+      }
+      .zodiac-text p {
+        font-size: 0.88rem;
+        color: rgba(255, 255, 255, 0.55);
+        margin-top: 4px;
+        line-height: 1.6;
+      }
+
+      /* ── LOVE LETTER ── */
+      #love {
+        text-align: center;
+      }
+
+      .letter-wrap {
+        max-width: 720px;
+        padding: 56px 40px;
+        background: linear-gradient(
+          145deg,
+          rgba(247, 168, 196, 0.07),
+          rgba(44, 10, 28, 0.6)
+        );
+        border: 1px solid rgba(247, 168, 196, 0.2);
+        border-radius: 20px;
+        backdrop-filter: blur(12px);
+        position: relative;
+        overflow: hidden;
+      }
+      .letter-wrap::before {
+        content: '"';
+        font-family: "Playfair Display", serif;
+        font-size: 16rem;
+        color: rgba(247, 168, 196, 0.05);
+        position: absolute;
+        top: -40px;
+        left: 10px;
+        line-height: 1;
+        pointer-events: none;
+      }
+
+      .letter-wrap h2 {
+        font-family: "Dancing Script", cursive;
+        font-size: clamp(2rem, 5vw, 3rem);
+        color: var(--rose);
+        margin-bottom: 32px;
+      }
+
+      .letter-para {
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        line-height: 2;
+        color: rgba(255, 255, 255, 0.8);
+        font-style: italic;
+        margin-bottom: 20px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .letter-para.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .letter-sig {
+        margin-top: 36px;
+        font-family: "Dancing Script", cursive;
+        font-size: 1.8rem;
+        color: var(--gold);
+      }
+
+      /* ── FLOATING HEARTS ── */
+      .hearts-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+      }
+      .fheart {
+        position: absolute;
+        font-size: 1rem;
+        opacity: 0;
+        animation: floatHeart linear infinite;
+      }
+      @keyframes floatHeart {
+        0% {
+          transform: translateY(0) scale(0.8);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.6;
+        }
+        90% {
+          opacity: 0.2;
+        }
+        100% {
+          transform: translateY(-90vh) scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 40px 20px 60px;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.25);
+        letter-spacing: 0.1em;
+      }
+      footer span {
+        color: var(--rose);
+      }
+
+      /* ── NAV DOTS ── */
+      .nav-dots {
+        position: fixed;
+        right: 24px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .nav-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(247, 168, 196, 0.3);
+        cursor: pointer;
+        transition:
+          background 0.3s,
+          transform 0.3s;
+      }
+      .nav-dot.active {
+        background: var(--rose);
+        transform: scale(1.4);
+      }
+
+      /* ── REVEAL ── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.9s ease,
+          transform 0.9s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ── GALLERY BUTTON ── */
+      .gallery-btn-wrap {
+        text-align: center;
+        margin-top: 40px;
+      }
+      .gallery-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 36px;
+        font-family: "Dancing Script", cursive;
+        font-size: 1.35rem;
+        color: #0d0008;
+        background: linear-gradient(135deg, var(--gold) 0%, var(--rose) 100%);
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        box-shadow:
+          0 0 30px rgba(247, 168, 196, 0.45),
+          0 0 60px rgba(249, 215, 126, 0.2);
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+        animation: btnPulse 3s ease-in-out infinite;
+      }
+      .gallery-btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.35) 0%,
+          transparent 60%
+        );
+        border-radius: 999px;
+      }
+      .gallery-btn:hover {
+        transform: scale(1.07) translateY(-2px);
+        box-shadow:
+          0 0 50px rgba(247, 168, 196, 0.7),
+          0 0 90px rgba(249, 215, 126, 0.35);
+      }
+      .gallery-btn:active {
+        transform: scale(0.97);
+      }
+      @keyframes btnPulse {
+        0%,
+        100% {
+          box-shadow:
+            0 0 30px rgba(247, 168, 196, 0.45),
+            0 0 60px rgba(249, 215, 126, 0.2);
+        }
+        50% {
+          box-shadow:
+            0 0 55px rgba(247, 168, 196, 0.75),
+            0 0 100px rgba(249, 215, 126, 0.4);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- Canvas -->
+    <canvas id="bg"></canvas>
+
+    <!-- Petals -->
+    <div class="petals" id="petals"></div>
+
+    <!-- Floating hearts -->
+    <div class="hearts-bg" id="hearts"></div>
+
+    <!-- Nav dots -->
+    <nav class="nav-dots" id="navDots">
+      <div class="nav-dot active" data-section="0"></div>
+      <div class="nav-dot" data-section="1"></div>
+      <div class="nav-dot" data-section="2"></div>
+      <div class="nav-dot" data-section="3"></div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-glow"></div>
+      <div>
+        <p class="tag">✦ A gift made just for her ✦</p>
+        <h1>Francine Mae</h1>
+        <p class="subtitle">Lorioma Labong — the most beautiful soul I know</p>
+        <p class="scroll-hint">scroll down<span></span></p>
+      </div>
+    </section>
+
+    <!-- MUSIC -->
+    <section id="music">
+      <div class="music-shell reveal">
+        <div class="music-copy">
+          <h2>Press play for her song</h2>
+          <p>
+            A soft background track to match the page, with a CD that starts
+            spinning the moment the music plays.
+          </p>
+        </div>
+
+        <div class="music-player">
+          <div class="cd-stage">
+            <div class="cd-ring"></div>
+            <div class="cd" id="cdDisc">
+              <div class="cd-label">Francine<br />Mae</div>
+            </div>
+          </div>
+
+          <button class="music-btn" id="musicToggle" type="button">
+            ▶ Play Song
+          </button>
+          <div class="music-meta">
+            <span>Now playing</span>
+            <span>KARSELMA</span>
+          </div>
+          <div class="music-note">
+            Tap once to start the music. Tap again to pause it.
+          </div>
+        </div>
+
+        <audio id="bgMusic" preload="metadata" loop>
+          <source
+            src="KARSELMA%20by%20Sonam%20Geley,%20Dechen%20Kezang%20%26%20@PemaDeki%20(Official%20Music%20Video)%20[rQK-6s2ufZI].mp3"
+            type="audio/mpeg"
+          />
+        </audio>
+      </div>
+    </section>
+
+    <!-- PORTRAIT + INFO -->
+    <section id="portrait">
+      <div class="photo-wrap">
+        <!-- Photo frame -->
+        <div class="photo-frame">
+          <div
+            class="photo-box"
+            onclick="document.getElementById('photoInput').click()"
+          >
+            <div class="shine"></div>
+            <img
+              id="photoImg"
+              src="photos/WhatsApp Image 2026-05-24 at 11.55.25 AM (2).jpeg"
+              alt="Francine"
+              style="display: block"
+            />
+            <div
+              class="photo-placeholder"
+              id="photoPlaceholder"
+              style="display: none"
+            >
+              <span class="photo-icon">🌸</span>
+              <span>TAP TO ADD</span>
+              <span>HER PHOTO</span>
+            </div>
+          </div>
+          <input type="file" id="photoInput" accept="image/*" />
+        </div>
+
+        <!-- Info -->
+        <div class="info-block reveal">
+          <h2>Francine Mae<br />Lorioma Labong</h2>
+          <div class="badges">
+            <span class="badge">🎂 May 26, 2005</span>
+            <span class="badge">✨ Age 21</span>
+            <span class="badge">🇵🇭 Filipina</span>
+          </div>
+          <div class="zodiac-card">
+            <span class="zodiac-icon">♊</span>
+            <div class="zodiac-text">
+              <h3>Gemini ✦ Air Sign</h3>
+              <p>
+                Curious, expressive, and endlessly enchanting.<br />
+                Born between the stars — a soul of two worlds,<br />
+                both dazzling and deep.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOVE LETTER -->
+    <section id="love">
+      <div class="letter-wrap">
+        <h2>My dearest Francine,</h2>
+
+        <p class="letter-para">
+          The moment I saw you, I understood why poets spend their entire lives
+          trying to describe beauty — because some people are simply impossible
+          to explain without falling in love with every single word used for
+          them. And you… you are one of those rare people.
+        </p>
+
+        <p class="letter-para">
+          You are not only beautiful in the way that turns heads. You are
+          beautiful in the way that quietly steals hearts. In the way your smile
+          can make a bad day feel soft again. In the way your voice, your
+          laughter, your little messages somehow became the safest part of my
+          life even from miles away.
+        </p>
+
+        <p class="letter-para">
+          It’s crazy, isn’t it? We haven’t even met yet, and still you became
+          someone so important to me. Somehow through screens, late-night texts,
+          random calls, sleepy good mornings, and endless conversations… you
+          made your way into my heart so naturally that now I cannot imagine my
+          days without you in them.
+        </p>
+
+        <p class="letter-para">
+          I love you beyond the words I know how to say. I love you in every
+          silent thought at 3 AM. I love you in the way the moon waits for the
+          night just to shine. I love you in the smallest moments — when your
+          name appears on my screen, when I reread our chats for no reason, when
+          I catch myself smiling because of something you said hours ago.
+        </p>
+
+        <p class="letter-para">
+          You are my Gemini girl — warm, brilliant, chaotic in the cutest way,
+          playful yet deep, beautiful inside and out. Twenty-one years old and
+          already the most extraordinary person I have ever had the privilege of
+          knowing.
+        </p>
+
+        <p class="letter-para">
+          And baby… I love you 3000. More than distance. More than time zones.
+          More than all the miles between us right now.
+        </p>
+
+        <p class="letter-para">
+          Sometimes I wish I could give you more. I wish your boy wasn’t such a
+          loser who can only provide words, late-night reassurance, stupid
+          jokes, and love through a phone screen for now. I wish I could hold
+          your hand when you’re sad, take you out somewhere beautiful, buy you
+          flowers in person, and look at you the way you deserve to be looked
+          at.
+        </p>
+
+        <p class="letter-para">
+          But even if all I can give you right now is my heart through a screen…
+          please know that it is completely yours.
+        </p>
+
+        <p class="letter-para">
+          You are loved more than you realize.<br />
+          More than I can explain.<br />
+          More than these words will ever manage to say.
+        </p>
+
+        <p class="letter-para">
+          Thank you for existing.<br />
+          Thank you for being you.<br />
+          And thank you for letting me love you.
+        </p>
+
+        <div class="letter-sig">Forever yours &amp; always 💖</div>
+
+        <div class="gallery-btn-wrap" style="margin-top: 40px">
+          <a href="gallery.html" class="gallery-btn">
+            🌸 Our Photo Gallery 📷
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      made with <span>♥</span> for francine mae &nbsp;·&nbsp; always &amp;
+      forever<br />Happy Birthday, Francine 🎂
+    </footer>
+
+    <script>
+      /* ── Cursor ── */
+      const cursor = document.getElementById("cursor");
+      const ring = document.getElementById("cursorRing");
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+        ring.style.left = e.clientX + "px";
+        ring.style.top = e.clientY + "px";
+      });
+
+      /* ── Canvas starfield ── */
+      const canvas = document.getElementById("bg");
+      const ctx = canvas.getContext("2d");
+      let W,
+        H,
+        stars = [],
+        nebulae = [];
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      function initStars() {
+        stars = Array.from({ length: 220 }, () => ({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.4 + 0.3,
+          a: Math.random(),
+          speed: Math.random() * 0.008 + 0.003,
+          phase: Math.random() * Math.PI * 2,
+        }));
+        nebulae = [
+          { x: W * 0.2, y: H * 0.3, r: 320, c: "247,168,196" },
+          { x: W * 0.75, y: H * 0.6, r: 280, c: "249,215,126" },
+          { x: W * 0.5, y: H * 0.8, r: 200, c: "224,86,124" },
+        ];
+      }
+      initStars();
+      window.addEventListener("resize", initStars);
+
+      let t = 0;
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        // nebulae
+        nebulae.forEach((n) => {
+          const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r);
+          g.addColorStop(0, `rgba(${n.c},.07)`);
+          g.addColorStop(1, `rgba(${n.c},0)`);
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // stars
+        stars.forEach((s) => {
+          const alpha = s.a * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,230,240,${alpha})`;
+          ctx.fill();
+        });
+
+        t++;
+        requestAnimationFrame(draw);
+      }
+      draw();
+
+      /* ── Petals ── */
+      const petalsEl = document.getElementById("petals");
+      const petalEmojis = ["🦛", "🐼", "🐈", "🐈‍⬛", "❀"];
+      for (let i = 0; i < 18; i++) {
+        const p = document.createElement("div");
+        p.className = "petal";
+        p.textContent = petalEmojis[i % petalEmojis.length];
+        p.style.left = Math.random() * 100 + "%";
+        p.style.animationDuration = 8 + Math.random() * 10 + "s";
+        p.style.animationDelay = Math.random() * 12 + "s";
+        p.style.fontSize = 0.8 + Math.random() * 1.2 + "rem";
+        petalsEl.appendChild(p);
+      }
+
+      /* ── Floating hearts ── */
+      const heartsEl = document.getElementById("hearts");
+      const heartEmojis = ["💖", "💗", "💕", "💓", "💝", "🩷"];
+      function spawnHeart() {
+        const h = document.createElement("div");
+        h.className = "fheart";
+        h.textContent =
+          heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+        h.style.left = Math.random() * 100 + "%";
+        h.style.bottom = "-40px";
+        h.style.animationDuration = 6 + Math.random() * 8 + "s";
+        h.style.animationDelay = "0s";
+        h.style.fontSize = 0.6 + Math.random() * 0.8 + "rem";
+        heartsEl.appendChild(h);
+        setTimeout(() => h.remove(), 14000);
+      }
+      setInterval(spawnHeart, 900);
+
+      /* ── Photo upload ── */
+      document.getElementById("photoInput").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        const img = document.getElementById("photoImg");
+        img.src = url;
+        img.style.display = "block";
+        document.getElementById("photoPlaceholder").style.display = "none";
+      });
+
+      /* ── Intersection observer (reveal) ── */
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) en.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.15 },
+      );
+
+      document
+        .querySelectorAll(".reveal, .letter-para")
+        .forEach((el) => io.observe(el));
+
+      /* ── Music player ── */
+      const musicToggle = document.getElementById("musicToggle");
+      const bgMusic = document.getElementById("bgMusic");
+      const cdDisc = document.getElementById("cdDisc");
+      const musicStateKey = "francineMusicState";
+      let saveTimeTimer = null;
+
+      function readMusicState() {
+        try {
+          return JSON.parse(localStorage.getItem(musicStateKey) || "null");
+        } catch {
+          return null;
+        }
+      }
+
+      function writeMusicState(state) {
+        localStorage.setItem(musicStateKey, JSON.stringify(state));
+      }
+
+      function setMusicState(isPlaying) {
+        cdDisc.classList.toggle("spin", isPlaying);
+        musicToggle.textContent = isPlaying ? "⏸ Pause Song" : "▶ Play Song";
+      }
+
+      async function restoreMusic() {
+        const state = readMusicState();
+        if (!state?.isPlaying) {
+          setMusicState(false);
+          return;
+        }
+
+        const resumeAt = Number(state.time) || 0;
+        bgMusic.currentTime = resumeAt;
+        try {
+          await bgMusic.play();
+          setMusicState(true);
+        } catch (err) {
+          console.error("Unable to resume audio playback:", err);
+          setMusicState(false);
+        }
+      }
+
+      bgMusic.addEventListener("loadedmetadata", () => {
+        const state = readMusicState();
+        if (state?.isPlaying && Number.isFinite(state.time)) {
+          bgMusic.currentTime = Math.min(
+            state.time,
+            bgMusic.duration || state.time,
+          );
+        }
+      });
+
+      bgMusic.addEventListener("timeupdate", () => {
+        const state = readMusicState();
+        if (state?.isPlaying) {
+          writeMusicState({ isPlaying: true, time: bgMusic.currentTime });
+        }
+      });
+
+      window.addEventListener("pagehide", () => {
+        writeMusicState({
+          isPlaying: !bgMusic.paused,
+          time: bgMusic.currentTime,
+        });
+      });
+
+      window.addEventListener("load", restoreMusic);
+
+      musicToggle.addEventListener("click", async () => {
+        if (bgMusic.paused) {
+          try {
+            await bgMusic.play();
+            setMusicState(true);
+            writeMusicState({ isPlaying: true, time: bgMusic.currentTime });
+          } catch (err) {
+            console.error("Unable to start audio playback:", err);
+          }
+        } else {
+          bgMusic.pause();
+          setMusicState(false);
+          writeMusicState({ isPlaying: false, time: bgMusic.currentTime });
+        }
+      });
+
+      bgMusic.addEventListener("play", () => {
+        setMusicState(true);
+        if (saveTimeTimer) clearInterval(saveTimeTimer);
+        saveTimeTimer = setInterval(() => {
+          writeMusicState({ isPlaying: true, time: bgMusic.currentTime });
+        }, 1000);
+      });
+      bgMusic.addEventListener("pause", () => {
+        setMusicState(false);
+        if (saveTimeTimer) {
+          clearInterval(saveTimeTimer);
+          saveTimeTimer = null;
+        }
+      });
+      bgMusic.addEventListener("ended", () => {
+        setMusicState(false);
+        if (saveTimeTimer) {
+          clearInterval(saveTimeTimer);
+          saveTimeTimer = null;
+        }
+        writeMusicState({ isPlaying: false, time: 0 });
+      });
+
+      /* ── Nav dots ── */
+      const sections = ["hero", "music", "portrait", "love"];
+      const dots = document.querySelectorAll(".nav-dot");
+      const sioOpts = { threshold: 0.5 };
+      const sio = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) {
+            const idx = sections.indexOf(en.target.id);
+            dots.forEach((d, i) => d.classList.toggle("active", i === idx));
+          }
+        });
+      }, sioOpts);
+      sections.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) sio.observe(el);
+      });
+
+      dots.forEach((d) => {
+        d.addEventListener("click", () => {
+          const idx = +d.dataset.section;
+          document
+            .getElementById(sections[idx])
+            ?.scrollIntoView({ behavior: "smooth" });
+        });
+      });
+    </script>
+  </body>
+</html>

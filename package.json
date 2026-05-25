@@ -1,0 +1,15 @@
+{
+  "name": "her-render-root",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Render entrypoint for Francine's website",
+  "scripts": {
+    "start": "node francine-website/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
